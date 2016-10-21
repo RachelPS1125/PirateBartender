@@ -84,47 +84,39 @@ $(document).ready(function(){
 		new Question('Would you like tomato on your burger?', 'tomato')
 	]
 
-	var bartender = new BartenderOrChef(pirateQuestions);
-	var chef = new BartenderOrChef(chefQuestions);
+	var bartender = new Bartender(pirateQuestions);
+	var chef = new Chef(chefQuestions);
 	var questionObj = bartender.askQuestion();
-	$('.drink-question>.question').text(questionObj.question);
-	$('input[name="drink-preference"]').click(function(event){
+	var foodPreparer = bartender;
+	$('.question-text').text(questionObj.question);
+	$('input[name="preference"]').click(function(event){
 		if ($(this).val() === 'yes'){
-			bartender.setLikes(questionObj.taste);
+			foodPreparer.setLikes(questionObj.taste);
 		}
-		questionObj = bartender.askQuestion();
+		questionObj = foodPreparer.askQuestion();
 		if(!questionObj){
-			$('.drink-question').hide();
-			
-			$('.want-burger').show();
-			showRecipe(bartender.makeItem(piratePantry), 'drink');
-			$('.want-burger>.question').text('Would you like a burger with your drink?');
+			$('.question').hide();
+			showRecipe(foodPreparer.makeItem(piratePantry));
+			if(foodPreparer instanceof Bartender){
+				$('.want-burger').show();
+				$('.offer-burger').text('Would you like a burger with your drink?');
+			}
 		} else {
-			$('.drink-question>.question').text(questionObj.question);
+			$('.question-text').text(questionObj.question);
 		}
 	});
-	$('input[name="drink-preference"]').click(function(event){
+	$('input[name="want"]').click(function(event){
 		if ($(this).val() === 'yes'){
-			$('.burger-question').hide();
-			questionObj = chef.askQuestion();
-			$('.burger-question>.question').text(questionObj.question);
-		}
-	}
-	$('input[name="burger-preference"]').click(function(event){
-		if ($(this).val() === 'yes'){
-			chef.setLikes(questionObj.taste);
-		}
-		questionObj = chef.askQuestion();
-		if(!questionObj){
-			$('.burger-question').hide();
-			showRecipe(chef.makeItem(piratePantry), 'burger');
-		} else {
-			$('.burger-question>.question').text(questionObj.question);
+			foodPreparer = chef;
+			$('.question').show();
+			$('.want-burger').hide();
+			questionObj = foodPreparer.askQuestion();
+			$('.question-text').text(questionObj.question);
 		}
 	})
 	function showRecipe(ingredients, recipe){
 		ingredients.forEach(function(ingredient){
-			$('.'+recipe+'-recipe').append('<li class="ingredient">'+ingredient+'</li>');
+			$('.drink-recipe').append('<li class="ingredient">'+ingredient+'</li>');
 		})
 	}
 })
