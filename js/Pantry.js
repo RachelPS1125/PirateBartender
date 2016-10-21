@@ -1,11 +1,11 @@
 function Pantry(){
 	this.sections = {};
 }
-Pantry.prototype.storeIngredient=function(taste, ingredient){
-	if(this.sections[taste]){
-		this.sections[taste].push(ingredient);
+Pantry.prototype.storeIngredient=function(type, ingredient){
+	if(this.sections[type]){
+		this.sections[type].push(ingredient);
 	} else {
-		this.sections[taste] = [ingredient];
+		this.sections[type] = [ingredient];
 	}
 }
 

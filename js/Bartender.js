@@ -1,9 +1,9 @@
-function Bartender(questions){
+function BartenderOrChef(questions){
 	this.questions = questions;
 	this.currentQuestion = 0;
 	this.preferences = []
 }
-Bartender.prototype.askQuestion = function(){
+BartenderOrChef.prototype.askQuestion = function(){
 	if(this.currentQuestion<this.questions.length){
 		return this.questions[this.currentQuestion++];
 	}else{
@@ -11,18 +11,18 @@ Bartender.prototype.askQuestion = function(){
 		return false
 	}
 }
-Bartender.prototype.setLikes = function(taste){
-	this.preferences.push(taste);
+BartenderOrChef.prototype.setLikes = function(type){
+	this.preferences.push(type);
 	console.log(this.preferences);
 }
-Bartender.prototype.makeDrink = function(pantry){
-	var drinkIngredients = []
+BartenderOrChef.prototype.makeItem = function(pantry){
+	var finalIngredients = []
 	for(var i = 0; i<this.preferences.length; i++){
 		var preference = this.preferences[i];
 		var ingredients = pantry.sections[preference];
+		console.log(ingredients.length);
 		var randomIngredient = ingredients[Math.floor(Math.random()*ingredients.length)]
-		drinkIngredients.push(randomIngredient); 
-		console.log(randomIngredient, ingredients);
+		finalIngredients.push(randomIngredient); 
 	}
-	return drinkIngredients;
+	return finalIngredients;
 }
